@@ -6,6 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    :root {
+      --background: #fff;
+      --background-transparent: rgba(255, 255, 255, 0.1);
+      --foreground: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #363434;
+        --background-transparent: #36343410;
+        --foreground: #fff;
+      }
+    }
+
+    html,
+    body {
+      background: var(--background);
+      color: var(--foreground);
+    }
+
     body {
       --font: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       --font-size: 16px;
@@ -18,7 +38,7 @@
       background: #ccc;
       border: solid 1px #ddd;
       border-radius: 100px;
-      box-shadow: inset 0px 0px 2px 1px rgba(255, 255, 255, 0.5);
+      box-shadow: inset 0px 0px 1px 1px rgba(255, 255, 255, 0.5);
       color: #000;
       font-family: var(--font);
       font-size: var(--font-size);
@@ -32,20 +52,23 @@
 
     .button-active {
       background: rgb(211, 72, 104);
-      border-color: rgb(255, 255, 255, 0.9);
+      border-color: rgb(255, 255, 255, 0.3);
       color: #fff;
     }
 
     .dialog {
+      background: var(--background-transparent);
+      backdrop-filter: blur(10px);
       border: 0;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(72, 26, 37, 0.3);
+      box-shadow: 0 0 10px rgba(31, 10, 15, 0.4);
       width: 50vw;
     }
   </style>
 </head>
 
 <body>
+  <h1 style="text-align: center;">Hello</h1>
   <div id="container"></div>
 
   <script>
@@ -68,7 +91,7 @@
       open = false
 
       template = function () {
-        return `<dialog ${this.open ? `open` : ``} class="${this.className}">${this.children}</dialog>`;
+        return `<dialog ${this.open ? `open` : ``} style="position: fixed; top: 2rem;" class="${this.className}">${this.children}</dialog>`;
       }
 
       constructor(props) {
