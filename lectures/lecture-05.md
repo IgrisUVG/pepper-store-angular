@@ -217,7 +217,7 @@ import { form, Field, required, email } from "@angular/forms/signals";
   </form>`,
 })
 class Form {
-  // Добавляем валидацию (но не в шаблоне)
+  // Добавляем валидацию (но не в шаблоне, а на этапе создания формы)
   loginForm = form(credentials, function (p) {
     required(p.username, { message: "Username is required" });
     required(p.email, { message: "Please enter user email so we could send you verification data" });
