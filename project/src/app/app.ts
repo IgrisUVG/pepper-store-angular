@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AppHeader } from './app-header/app-header';
-import { AppFooter } from './app-footer/app-footer';
-import { Checkbox } from './checkbox/checkbox';
+import { AppHeader } from './layout/header/header';
+import { AppFooter } from './layout/footer/footer';
+import { Checkbox } from './components/checkbox/checkbox';
 
 @Component({
   selector: 'app-root',
