@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { CatalogData, SortDirection } from '../../services/catalog-data';
 import { CurrencyPipe } from '@angular/common';
-import { HeatLevel } from '../../types/product';
+import { HeatLevel, ProductType } from '../../types/product';
 
 @Component({
   selector: 'app-main',
@@ -18,6 +18,14 @@ export class Main {
     [SortDirection.PRICE_ASC, "Price Low"],
     [SortDirection.PRICE_DESC, "Price High"],
     [SortDirection.RATING, "Scoville Rating"],
+  ];
+
+  productTypeFilterName = [
+    [ProductType.CHILLY, "Whole Chillies"],
+    [ProductType.SPICE, "Ground Spices"],
+    [ProductType.SAUCE, "Scorching Sauces"],
+    [ProductType.BLEND, "Sadistic Blends"],
+    [ProductType.EXTRACT, "Infernal Extracts"],
   ];
 
   heatLevelFilterName = [
@@ -37,5 +45,11 @@ export class Main {
     const clickedInput = evt.target as HTMLInputElement;
     const checkedHeatLevel = clickedInput.value as HeatLevel;
     this.catalog.toggleHeatLevel(checkedHeatLevel);
+  }
+
+  onProductTypeChange(evt: Event) {
+    const clickedInput = evt.target as HTMLInputElement;
+    const checkedProductType = clickedInput.value as ProductType;
+    this.catalog.toggleSelectedProductType(checkedProductType);
   }
 }

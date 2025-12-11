@@ -3,11 +3,9 @@
     <form>
       <fieldset class="flex flex-col gap-3 mb-6">
         <legend class="font-bold mb-3">Product Type</legend>
-        <app-checkbox name="product-type" value="chillies" label="Whole Chillies" />
-        <app-checkbox name="product-type" value="spices" label="Ground Spices" />
-        <app-checkbox name="product-type" value="sauces" label="Scorching Sauces" />
-        <app-checkbox name="product-type" value="blends" label="Sadistic Blends" />
-        <app-checkbox name="product-type" value="extracts" label="Infernal Extracts" />
+        @for (productType of productTypeFilterName; track productType[0]) {
+          <app-checkbox name="product-type" [value]="productType[0]" [label]="productType[1]" (change)="onProductTypeChange($event)" />
+        }
       </fieldset>
       <fieldset class="flex flex-col gap-3">
         <legend class="font-bold mb-3">Agony Level</legend>

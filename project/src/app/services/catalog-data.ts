@@ -93,14 +93,23 @@ export class CatalogData {
 
   selectedHeatLevels = signal<HeatLevel[]>([]);
 
+  selectedProductTypes = signal<ProductType[]>([]);
+
   filteredData = computed(() => {
     const totalHeatLevels = Object.keys(HeatLevel).length;
+    const totalProductTypes = Object.keys(ProductType).length;
 
     const filteredList = [...this.#data]
       // Filter by name
       .filter(() => true)
       // Filter by type
-      .filter(() => true)
+      .filter((p) => {
+        if (this.selectedProductTypes().length === 0 || this.selectedProductTypes().length === totalProductTypes) {
+          return true;
+        }
+
+        return this.selectedProductTypes().includes(p.type);
+      })
       // Filter by heat level
       .filter((p) => {
         if (this.selectedHeatLevels().length === 0 || this.selectedHeatLevels().length === totalHeatLevels) {
@@ -122,5 +131,14 @@ export class CatalogData {
     }
 
     this.selectedHeatLevels.update((levels) => [...levels, heatLevel]);
+  }
+
+  toggleSelectedProductType(productType: ProductType) {
+    if (this.selectedProductTypes().includes(productType)) {
+      this.selectedProductTypes.update((types) => types.filter((type) => type !== productType));
+      return;
+    }
+
+    this.selectedProductTypes.update((types) => [...types, productType]);
   }
 }
