@@ -8,6 +8,13 @@ export enum SortDirection {
   RATING = "sort-rating",
 }
 
+const SortFunctionByDirection = new Map<SortDirection, (a: Product, b: Product) => number>([
+  [SortDirection.NEW, (a, b) => 0],
+  [SortDirection.PRICE_ASC, (a, b) => a.price.value - b.price.value],
+  [SortDirection.PRICE_DESC, (a, b) => b.price.value - a.price.value],
+  [SortDirection.RATING, (a, b) => b.rating - a.rating],
+]);
+
 @Injectable({
   providedIn: 'root',
 })
@@ -91,25 +98,7 @@ export class CatalogData {
 
     const filteredList = newList.filter(() => true);
 
-    filteredList.sort((a, b) => {
-      if (this.sortDirection() === CatalogData.DEFAULT_SORT_DIRECTION) {
-        return 0;
-      }
-
-      if (this.sortDirection() === SortDirection.PRICE_ASC) {
-        return a.price.value - b.price.value;
-      }
-
-      if (this.sortDirection() === SortDirection.PRICE_DESC) {
-        return b.price.value - a.price.value;
-      }
-
-      if (this.sortDirection() === SortDirection.RATING) {
-        return b.rating - a.rating;
-      }
-
-      return 0;
-    });
+    filteredList.sort(SortFunctionByDirection.get(this.sortDirection())!);
 
     return filteredList;
   })
