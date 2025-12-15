@@ -35,7 +35,7 @@
         @for (item of catalog.filteredData(); track item.id) {
           <a href="#">
             <article class="bg-gray-100 border border-gray-200 rounded-md p-4 hover:border-gray-300">
-              <img class="mb-4" [src]="item.image" width="272" height="247" [alt]="item.name" />
+              <img class="mb-4" [src]="item.image.url" width="272" height="247" [alt]="item.name" />
               <h2 class="mb-2">{{item.name}}</h2>
               <p class="mb-2 font-600">{{item.price.value | currency:item.price.currency}}</p>
               <p class="text-sm text-gray-500">{{ item.description }}</p>

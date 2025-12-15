@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { CatalogData, SortDirection } from '../../services/catalog-data';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, JsonPipe } from '@angular/common';
 import { HeatLevel, ProductType } from '../../types/product';
 
 @Component({

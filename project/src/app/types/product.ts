@@ -21,7 +21,9 @@ export interface Product {
     currency: "USD" | "EUR" | "GBP",
   },
   description: string,
-  image: string,
+  image: {
+    url: string,
+  },
   // NB! Scale 1..10
   rating: number,
   heatLevel: HeatLevel,
