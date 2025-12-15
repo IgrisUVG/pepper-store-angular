@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "rating": {
+      "type": "integer",
+      "default": 5,
+      "min": 1,
+      "max": 10
+    },
+    "heatLevel": {
+      "type": "enumeration",
+      "required": false,
+      "default": "m",
+      "enum": [
+        "s",
+        "m",
+        "l",
+        "xl"
+      ]
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "chilly",
+        "spice",
+        "sauce",
+        "blend",
+        "extract"
+      ]
+    },
+    "price": {
+      "type": "json",
+      "required": true
+    }
+  }
+}
