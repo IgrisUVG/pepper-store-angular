@@ -1,8 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Checkbox } from '../../components/checkbox/checkbox';
 import { CatalogData, SortDirection } from '../../services/catalog-data';
-import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { HeatLevel, ProductType } from '../../types/product';
+import { API_URL, ApiFetcher } from '../../services/api-fetcher';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-main',
@@ -10,8 +12,12 @@ import { HeatLevel, ProductType } from '../../types/product';
   templateUrl: './main.html',
   styleUrl: './main.css',
 })
-export class Main {
+export class Main implements OnInit {
+  #apiFetcher = inject(ApiFetcher)
+
   catalog = inject(CatalogData);
+
+  isLoading = signal<boolean>(true);
 
   sortDirectionName = [
     [SortDirection.NEW, "New"],
@@ -34,6 +40,20 @@ export class Main {
     [HeatLevel.HIGHER, "Ring of Fire"],
     [HeatLevel.HIGH, "Legal Weapon"],
   ];
+
+  ngOnInit(): void {
+    this.#apiFetcher.get(API_URL.PRODUCTS).subscribe((data) => {
+      this.catalog.data.set(data.data.map((i) => ({
+        ...i,
+        image: {
+          ...i.image,
+          url: `${environment.STATIC_URL}${i.image.url}`,
+        },
+      })));
+
+      this.isLoading.set(false);
+    });
+  }
 
   onSortDirectionChange(evt: Event) {
     const clickedInput = evt.target as HTMLInputElement;

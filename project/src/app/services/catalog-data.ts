@@ -1,7 +1,5 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { HeatLevel, Product, ProductType } from '../types/product';
-import { API_URL, ApiFetcher } from './api-fetcher';
-import { environment } from '../../environments/environment';
 
 export enum SortDirection {
   NEW = "sort-new",
@@ -23,9 +21,7 @@ const SortFunctionByDirection = new Map<SortDirection, (a: Product, b: Product) 
 export class CatalogData {
   static DEFAULT_SORT_DIRECTION = SortDirection.NEW
 
-  #apiFetcher = inject(ApiFetcher)
-
-  #data = signal<Product[]>([])
+  data = signal<Product[]>([])
 
   sortDirection = signal(CatalogData.DEFAULT_SORT_DIRECTION)
 
@@ -33,23 +29,11 @@ export class CatalogData {
 
   selectedProductTypes = signal<ProductType[]>([]);
 
-  constructor() {
-    this.#apiFetcher.get(API_URL.PRODUCTS).subscribe((data) => {
-      this.#data.set(data.data.map((i) => ({
-        ...i,
-        image: {
-          ...i.image,
-          url: `${environment.STATIC_URL}${i.image.url}`,
-        },
-      })));
-    });
-  }
-
   filteredData = computed(() => {
     const totalHeatLevels = Object.keys(HeatLevel).length;
     const totalProductTypes = Object.keys(ProductType).length;
 
-    const filteredList = [...this.#data()]
+    const filteredList = [...this.data()]
       // Filter by name
       .filter(() => true)
       // Filter by type
