@@ -1,7 +1,5 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { HeatLevel, Product, ProductType } from '../types/product';
-import { API_URL, ApiFetcher } from './api-fetcher';
-import { environment } from '../../environments/environment';
 
 export enum SortDirection {
   NEW = "sort-new",
@@ -23,9 +21,7 @@ const SortFunctionByDirection = new Map<SortDirection, (a: Product, b: Product) 
 export class CatalogData {
   static DEFAULT_SORT_DIRECTION = SortDirection.NEW
 
-  #apiFetcher = inject(ApiFetcher)
-
-  #data = signal<Product[]>([])
+  data = signal<Product[]>([])
 
   sortDirection = signal(CatalogData.DEFAULT_SORT_DIRECTION)
 
@@ -33,24 +29,11 @@ export class CatalogData {
 
   selectedProductTypes = signal<ProductType[]>([]);
 
-  constructor() {
-    // TODO: Preloader for UI (Possibly with async pipe)
-    this.#apiFetcher.get(API_URL.PRODUCTS).subscribe((data: any) => {
-      this.#data.set(data.data.map((i: Product) => ({
-        ...i,
-        image: {
-          ...i.image,
-          url: `${environment.STATIC_URL}${i.image.url}`,
-        },
-      })));
-    });
-  }
-
   filteredData = computed(() => {
     const totalHeatLevels = Object.keys(HeatLevel).length;
     const totalProductTypes = Object.keys(ProductType).length;
 
-    const filteredList = [...this.#data()]
+    const filteredList = [...this.data()]
       // Filter by name
       .filter(() => true)
       // Filter by type
@@ -75,21 +58,19 @@ export class CatalogData {
     return filteredList;
   })
 
-  toggleHeatLevel(heatLevel: HeatLevel) {
-    if (this.selectedHeatLevels().includes(heatLevel)) {
-      this.selectedHeatLevels.update((levels) => levels.filter((level) => level !== heatLevel));
-      return;
+  static toggleHeatLevel(selectedHeatLevels: HeatLevel[], heatLevel: HeatLevel) {
+    if (selectedHeatLevels.includes(heatLevel)) {
+      return selectedHeatLevels.filter((level) => level !== heatLevel);
     }
 
-    this.selectedHeatLevels.update((levels) => [...levels, heatLevel]);
+    return [...selectedHeatLevels, heatLevel];
   }
 
-  toggleSelectedProductType(productType: ProductType) {
-    if (this.selectedProductTypes().includes(productType)) {
-      this.selectedProductTypes.update((types) => types.filter((type) => type !== productType));
-      return;
+  static toggleSelectedProductType(selectedProductTypes: ProductType[], productType: ProductType) {
+    if (selectedProductTypes.includes(productType)) {
+      return selectedProductTypes.filter((type) => type !== productType);
     }
 
-    this.selectedProductTypes.update((types) => [...types, productType]);
+    return [...selectedProductTypes, productType];
   }
 }

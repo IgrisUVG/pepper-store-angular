@@ -4,13 +4,33 @@
       <fieldset class="flex flex-col gap-3 mb-6">
         <legend class="font-bold mb-3">Product Type</legend>
         @for (productType of productTypeFilterName; track productType[0]) {
-          <app-checkbox name="product-type" [value]="productType[0]" [label]="productType[1]" (change)="onProductTypeChange($event)" />
+          <label class="flex gap-2 items-center align-center select-none">
+            <input
+              [checked]="catalog.selectedProductTypes().includes(productType[0])"
+              type="checkbox"
+              class="size-3.5 appearance-none rounded-sm border border-gray-700 accent-red-800 checked:appearance-auto"
+              name="product-type"
+              [value]="productType[0]"
+              (click)="onProductTypeClick($event)"
+            />
+            {{productType[1]}}
+          </label>
         }
       </fieldset>
       <fieldset class="flex flex-col gap-3">
         <legend class="font-bold mb-3">Agony Level</legend>
         @for (heatLevel of heatLevelFilterName; track heatLevel[0]) {
-          <app-checkbox name="agony-level" [value]="heatLevel[0]" [label]="heatLevel[1]" (change)="onHeatLevelChange($event)" />
+          <label class="flex gap-2 items-center align-center select-none">
+            <input
+              [checked]="catalog.selectedHeatLevels().includes(heatLevel[0])"
+              type="checkbox"
+              class="size-3.5 appearance-none rounded-sm border border-gray-700 accent-red-800 checked:appearance-auto"
+              name="agony-level"
+              [value]="heatLevel[0]"
+              (click)="onHeatLevelClick($event)"
+            />
+            {{heatLevel[1]}}
+          </label>
         }
       </fieldset>
     </form>
@@ -21,26 +41,32 @@
 
       <div class="flex gap-2 items-center align-center">
         @for (direction of sortDirectionName; track direction[0]) {
-          <input type="radio" hidden [id]="direction[0]" name="sort" [value]="direction[0]" [checked]="catalog.sortDirection() === direction[0]" (change)="onSortDirectionChange($event)" />
+          <input type="radio" hidden [id]="direction[0]" name="sort" [value]="direction[0]" [checked]="catalog.sortDirection() === direction[0]" (click)="onSortDirectionClick($event)" />
           <label class="control-radio rounded-md px-2 py-1" [for]="direction[0]">{{ direction[1] }}</label>
         }
       </div>
     </form>
     <section class="flex flex-wrap gap-2">
-      @if (catalog.filteredData().length === 0) {
+      @if (isLoading()) {
         <div class="flex items-center justify-center flex-1 mt-20">
-          <p class="text-center text-gray-500">There are no products satisfying your request. Try to ease up your request by selecting less demading filters.</p>
+          <p class="text-center text-gray-500">Loading peppers&hellip;</p>
         </div>
       } @else {
-        @for (item of catalog.filteredData(); track item.id) {
-          <a href="#">
-            <article class="bg-gray-100 border border-gray-200 rounded-md p-4 hover:border-gray-300">
-              <img class="mb-4" [src]="item.image.url" width="272" height="247" [alt]="item.name" />
-              <h2 class="mb-2">{{item.name}}</h2>
-              <p class="mb-2 font-600">{{item.price.value | currency:item.price.currency}}</p>
-              <p class="text-sm text-gray-500">{{ item.description }}</p>
-            </article>
-          </a>
+        @if (catalog.filteredData().length === 0) {
+          <div class="flex items-center justify-center flex-1 mt-20">
+            <p class="text-center text-gray-500">There are no products satisfying your request. Try to ease up your request by selecting less demading filters.</p>
+          </div>
+        } @else {
+          @for (item of catalog.filteredData(); track item.id) {
+            <a href="#">
+              <article class="bg-gray-100 border border-gray-200 rounded-md p-4 hover:border-gray-300">
+                <img class="mb-4" [src]="item.image.url" width="272" height="247" [alt]="item.name" />
+                <h2 class="mb-2">{{item.name}}</h2>
+                <p class="mb-2 font-600">{{item.price.value | currency:item.price.currency}}</p>
+                <p class="text-sm text-gray-500">{{ item.description }}</p>
+              </article>
+            </a>
+          }
         }
       }
     </section>
