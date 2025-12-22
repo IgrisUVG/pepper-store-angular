@@ -20,7 +20,7 @@
 *   **Остальные страницы дизайна** — это бэклог, к которому вы вернетесь, когда команда (возможно) восстановится.
 
 
-### Desing
+### Design
 - Figma https://www.figma.com/design/Ab5JZQAFuwtmCTUcKg7jVz/Project-M4-1--Angular--share-?node-id=0-1&t=TmCnqFcRQSZ4LQ0G-1
 
 ### Техническое задание
