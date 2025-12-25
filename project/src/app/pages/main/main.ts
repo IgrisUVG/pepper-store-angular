@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CatalogData, SortDirection } from '../../services/catalog-data';
 import { CurrencyPipe } from '@angular/common';
-import { HeatLevel, ProductType } from '../../types/product';
+import { HeatLevel, Product, ProductType } from '../../types/product';
 import { API_URL, ApiFetcher } from '../../services/api-fetcher';
 import { environment } from '../../../environments/environment';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 enum SearchParamName {
   HEAT_LEVELS = "heatLevels[]",
@@ -14,7 +14,7 @@ enum SearchParamName {
 
 @Component({
   selector: 'app-main',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './main.html',
   styleUrl: './main.css',
 })
@@ -58,7 +58,7 @@ export class Main implements OnInit {
       this.catalog.sortDirection.set(values[SearchParamName.SORT_DIRECTION] as SortDirection ?? CatalogData.DEFAULT_SORT_DIRECTION);
     });
 
-    this.#apiFetcher.get(API_URL.PRODUCTS).subscribe((data) => {
+    this.#apiFetcher.get<Product[]>(API_URL["PRODUCTS"]()).subscribe((data) => {
       this.catalog.data.set(data.data.map((i) => ({
         ...i,
         image: {

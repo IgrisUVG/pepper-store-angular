@@ -1,10 +1,12 @@
 <header class="flex flex-row flex-wrap items-center gap-10 px-5 py-4">
-  <h1 class="flex flex-row items-center gap-2">
-    <img src="/logo.svg" alt="The Scoville Inferno" width="65" height="45" />
-    <span class="text-2xl font-bold">The Scoville Inferno</span>
-  </h1>
+  <a routerLink="/">
+    <h1 class="flex flex-row items-center gap-2">
+      <img src="/logo.svg" alt="The Scoville Inferno" width="65" height="45" />
+      <span class="text-2xl font-bold">The Scoville Inferno</span>
+    </h1>
+  </a>
   <ul class="flex flex-1 flex-row justify-end gap-5" aria-role="navigation">
-    <li><a href="#">Products</a></li>
+    <li><a routerLink="/" routerLinkActive="font-bold" [routerLinkActiveOptions]="{ exact: true }">Products</a></li>
     <li><a href="#">Pain Guides</a></li>
     <li><a href="#">Community</a></li>
     <li><a href="#">Resources</a></li>

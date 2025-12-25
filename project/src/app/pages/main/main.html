@@ -57,8 +57,8 @@
             <p class="text-center text-gray-500">There are no products satisfying your request. Try to ease up your request by selecting less demading filters.</p>
           </div>
         } @else {
-          @for (item of catalog.filteredData(); track item.id) {
-            <a href="#">
+          @for (item of catalog.filteredData(); track item.documentId) {
+            <a [routerLink]="`/products/${item.documentId}`">
               <article class="bg-gray-100 border border-gray-200 rounded-md p-4 hover:border-gray-300">
                 <img class="mb-4" [src]="item.image.url" width="272" height="247" [alt]="item.name" />
                 <h2 class="mb-2">{{item.name}}</h2>

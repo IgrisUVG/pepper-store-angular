@@ -59,6 +59,30 @@
     "price": {
       "type": "json",
       "required": true
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "fullDescription": {
+      "type": "text"
+    },
+    "technicalSpecifications": {
+      "type": "json"
+    },
+    "fullImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

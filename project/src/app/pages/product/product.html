@@ -1,0 +1,9 @@
+<main class="flex flex-1 px-2.5 pb-10 ">
+  @if (isLoading()) {
+    <div class="flex items-center justify-center flex-1 mt-20">
+      <p class="text-center text-gray-500">Loading product data&hellip;</p>
+    </div>
+  } @else {
+  <pre>{{ data() | json }}</pre>
+  }
+</main>

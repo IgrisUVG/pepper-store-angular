@@ -15,6 +15,7 @@ export enum HeatLevel {
 
 export interface Product {
   id: string,
+  documentId: string,
   name: string,
   price: {
     value: number,
@@ -28,4 +29,21 @@ export interface Product {
   rating: number,
   heatLevel: HeatLevel,
   type: ProductType,
+}
+
+export interface ProductFull extends Product {
+  unit: string,
+  fullDescription: string,
+  technicalSpecifications: {
+    title: string,
+    description: string,
+  }[],
+  image: {
+    url: string,
+  },
+  reviews: {
+    rating: number, // 1..5
+    title: string,
+    text: string,
+  }[],
 }
